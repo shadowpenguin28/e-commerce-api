@@ -18,7 +18,7 @@ class CustomUser(AbstractUser):
     )
 
     phone_number = models.CharField(
-        max_length = 10,
+        max_length = 15,
         blank = True,
         null = True,
         help_text = "User's phone number for order delivery."
