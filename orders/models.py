@@ -1,5 +1,3 @@
-# orders/models.py
-
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
@@ -143,7 +141,7 @@ class Order(models.Model):
         self.subtotal = subtotal
         # You can add tax calculation logic here
         # self.tax_amount = subtotal * Decimal('0.10')  # 10% tax
-        self.total_amount = self.subtotal + self.tax_amount + self.shipping_cost
+        self.total_amount = Decimal(str(self.subtotal)) + Decimal(str(self.tax_amount)) + Decimal(str(self.shipping_cost))
         self.save(update_fields=['subtotal', 'tax_amount', 'total_amount'])
     
     class Meta:
