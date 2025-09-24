@@ -271,41 +271,6 @@ def shop_search_suggestions(request):
             'error': str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def shop_featured_items(request):
-    """
-    Get featured/recommended items
-    GET /shop/featured
-    """
-    try:
-        # Get latest items (you can customize this logic)
-        featured_items = Item.objects.select_related('category').filter(
-            is_active=True,
-            quantity__gt=0
-        ).order_by('-created_at')[:8]
-        
-        serializer = ShopItemListSerializer(
-            featured_items, 
-            many=True, 
-            context={'request': request}
-        )
-        
-        return Response({
-            'success': True,
-            'featured_items': serializer.data
-        })
-    
-    except Exception as e:
-        logger.error(f"Error retrieving featured items: {str(e)}")
-        return Response({
-            'success': False,
-            'message': 'Failed to retrieve featured items',
-            'error': str(e)
-        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def shop_price_range(request):

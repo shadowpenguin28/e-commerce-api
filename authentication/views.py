@@ -49,6 +49,7 @@ def user_signup(request):
             # Get user profile data
             profile_data = UserProfileSerializer(user).data
             
+    
             logger.info(f"New user registered: {user.username}")
             
             return Response({

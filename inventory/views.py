@@ -62,7 +62,37 @@ def list_items(request):
             'message': 'Failed to retrieve items',
             'error': str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(["POST"])
+@permission_classes([IsAuthenticated, IsShopkeeper])
+def create_category(request):
+    """
+    Create a new cateogry
+    POST /inventory/category/new/
+    """
 
+    serializer = CategorySerializer(data=request.data)
+    if serializer.is_valid():
+        try:
+            category = serializer.save()
+            logger.info(f"New category created: {category.name} by {request.user.username}")
+
+            return Response({
+                'success': True,
+                'message': 'Category created successfully'
+            }, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            logger.error(f"Error in creating category: {e}")
+            return Response({
+                'success': False,
+                'message': 'Failed to create category' 
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    return Response({
+        'success': False,
+        'message': 'Invalid data provided',
+        'errors': serializer.errors
+    }, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsShopkeeper])

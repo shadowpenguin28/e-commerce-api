@@ -3,7 +3,7 @@ from inventory.models import Category, Item
 
 class ShopCategorySerializer(serializers.ModelSerializer):
     """
-    Serializer for public category display
+    Serializer for category display
     """
     item_count = serializers.SerializerMethodField()
     
@@ -17,7 +17,7 @@ class ShopCategorySerializer(serializers.ModelSerializer):
 
 class ShopItemListSerializer(serializers.ModelSerializer):
     """
-    Serializer for public item listing (minimal data for performance)
+    Serializer for item listing
     """
     category_name = serializers.CharField(source='category.name', read_only=True)
     category_slug = serializers.CharField(source='category.slug', read_only=True)
@@ -43,7 +43,7 @@ class ShopItemListSerializer(serializers.ModelSerializer):
 
 class ShopItemDetailSerializer(serializers.ModelSerializer):
     """
-    Serializer for detailed item view (for individual product pages)
+    Serializer for detailed item view
     """
     category_name = serializers.CharField(source='category.name', read_only=True)
     category_slug = serializers.CharField(source='category.slug', read_only=True)
@@ -127,8 +127,7 @@ class ShopSearchResultSerializer(serializers.ModelSerializer):
         
         # Bonus for name starting with search term
         if name_lower.startswith(search_term):
-            score += 15
-        
+            score += 15 
         return score
 
 
@@ -137,12 +136,11 @@ class PaginationSerializer(serializers.Serializer):
     Serializer for pagination metadata
     """
     count = serializers.IntegerField()
-    next = serializers.URLField(allow_null=True)
+    NEXT = serializers.URLField(allow_null=True)
     previous = serializers.URLField(allow_null=True)
     current_page = serializers.IntegerField()
     total_pages = serializers.IntegerField()
     page_size = serializers.IntegerField()
-
 
 class ShopListResponseSerializer(serializers.Serializer):
     """

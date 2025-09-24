@@ -5,6 +5,7 @@ from . import views
 
 urlpatterns = [
     # Item management
+    path('category/new/', views.create_category, name='create_category'),
     path('list/', views.list_items, name='list_items'),
     path('new/', views.create_item, name='create_item'),
     path('update/<int:item_id>/', views.update_item, name='update_item'),
